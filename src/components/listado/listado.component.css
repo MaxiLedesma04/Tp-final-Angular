@@ -1,0 +1,13 @@
+.hero-list-container {
+  padding: 20px;
+}
+
+.hero-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+mat-card {
+  width: 300px;
+}

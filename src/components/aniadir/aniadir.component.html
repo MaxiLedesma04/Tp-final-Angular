@@ -1,0 +1,129 @@
+<h2 class="text-2xl font-bold mb-4">Editar o Agregar Héroe</h2>
+<hr class="border-b-2 mb-4" />
+
+<div class="grid grid-cols-1 gap-6">
+  <div class="col-span-1">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <form (ngSubmit)="onSubmit()" class="grid gap-4">
+        <!-- Superhero Name -->
+        <div class="col-span-1">
+          <label for="superhero" class="block text-sm font-medium text-gray-700"
+            >Nombre Super Héroe</label
+          >
+          <input
+            id="superhero"
+            type="text"
+            formControlName="superhero"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          />
+        </div>
+
+        <!-- Alter Ego -->
+        <div class="col-span-1">
+          <label for="alter_ego" class="block text-sm font-medium text-gray-700"
+            >Alter Ego Super Héroe</label
+          >
+          <input
+            id="alter_ego"
+            type="text"
+            formControlName="alter_ego"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          />
+        </div>
+
+        <!-- First Appearance -->
+        <div class="col-span-1">
+          <label
+            for="first_appearance"
+            class="block text-sm font-medium text-gray-700"
+            >Primera Aparición Super Héroe</label
+          >
+          <input
+            id="first_appearance"
+            type="text"
+            formControlName="first_appearance"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          />
+        </div>
+
+        <!-- Characters -->
+        <div class="col-span-1">
+          <label
+            for="characters"
+            class="block text-sm font-medium text-gray-700"
+            >Personaje Super Héroe</label
+          >
+          <input
+            id="characters"
+            type="text"
+            formControlName="characters"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          />
+        </div>
+
+        <!-- Publisher -->
+        <div class="col-span-1">
+          <label for="publisher" class="block text-sm font-medium text-gray-700"
+            >Creador</label
+          >
+          <select
+            id="publisher"
+            formControlName="publisher"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          >
+            <option *ngFor="let publisher of publishers" [value]="publisher.id">
+              {{ publisher.desc }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Alt Image -->
+        <div class="col-span-1">
+          <label for="alt_img" class="block text-sm font-medium text-gray-700"
+            >Imagen Alternativa</label
+          >
+          <input
+            id="alt_img"
+            type="text"
+            formControlName="alt_img"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+            required
+          />
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between mt-4">
+          <!-- <button
+            type="button"
+            class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600"
+            (click)="onDeleteHero()"
+          >
+            Borrar
+          </button> -->
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Hero Image -->
+  <div class="col-span-1 mt-6">
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <img
+        [src]="heroForm.value.alt_img || 'assets/default-image.jpg'"
+        alt="Imagen del héroe"
+        class="w-full h-auto rounded-lg"
+      />
+    </div>
+  </div>
+</div>
