@@ -4,14 +4,18 @@ import { Publisher, Hero } from '../interfaces/interfaces.component';
 import { HeroresServices } from '../services/hero.services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 
 @Component({
   selector: 'app-aniadir',
   standalone: true,
   templateUrl: './aniadir.component.html',
+  styleUrls: ['./aniadir.component.css'],
   styles: [],
   providers: [HeroresServices],
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
 })
 export class AniadirComponent implements OnInit {
   heroForm = new FormGroup({
@@ -72,19 +76,17 @@ export class AniadirComponent implements OnInit {
     });
   }
 
+  onDeleteHero(): void {
+    if (this.currentHero.id) {
+      this.heroService.deleteHeroe(this.currentHero.id).subscribe(() => {
+        this.showSnackBar(`${this.currentHero.superhero} borrado`);
+        this.router.navigateByUrl('/'); // Redirigir después de borrar
+      });
+    }
+  }
+
   showSnackBar(message: string): void {
     // Implementación de snackbar con alertas simples en lugar de Material
     alert(message); // Usar alert como alternativa a snackbar
   }
-
-  // onDeleteHero(): void {
-  //   // Aquí puedes implementar la lógica para borrar el héroe si es necesario
-  //   // Por ejemplo, podrías pedir confirmación antes de borrar
-  //   if (this.currentHero.id) {
-  //     this.heroService.deleteHero(this.currentHero.id).subscribe(() => {
-  //       this.showSnackBar(`${this.currentHero.superhero} borrado`);
-  //       this.router.navigateByUrl('/'); // Redirigir después de borrar
-  //     });
-  //   }
-  // }
 }
