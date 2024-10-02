@@ -1,8 +1,26 @@
-<mat-card *ngFor="let hero of heroes">
-  <mat-card-header>
-    <mat-card-title>{{ hero.nombre }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <!-- Contenido adicional del héroe -->
-  </mat-card-content>
-</mat-card>
+<div class="card-container">
+  @for (hero of heroes; track hero.id) {
+  <article class="hero-card">
+    <header>
+      <h2>{{ hero.superhero }}</h2>
+      <h3>{{ hero.alter_ego }}</h3>
+    </header>
+
+    <!-- Imagen del héroe -->
+    <img [src]="hero.alt_img" [alt]="hero.superhero" class="hero-image" />
+
+    <section class="hero-details">
+      <h4>{{ hero.publisher }}</h4>
+      <p><strong>Primera aparición:</strong> {{ hero.first_appearance }}</p>
+      <ul>
+        <li>{{ hero.characters }}</li>
+      </ul>
+    </section>
+
+    <footer class="hero-actions">
+      <button type="button" [routerLink]="['/edit', hero.id]">Editar</button>
+      <button type="button" [routerLink]="['/heroes', hero.id]">Más</button>
+    </footer>
+  </article>
+  }
+</div>

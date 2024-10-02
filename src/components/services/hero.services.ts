@@ -1,41 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, of, pipe, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Hero } from '../interfaces/interfaces.component';
-import { enviroments } from '../../enviroments/enviroments';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root', // O si no usas módulos, asegúrate de agregarlo en los providers de cada componente
+})
 export class HeroresServices {
+  private apiUrl = 'http://localhost:3000/heroes';
+
   constructor(private http: HttpClient) {}
 
-  baserUrl: string = enviroments.baseUrl;
-
   getHeroes(): Observable<Hero[]> {
-    return this.http.get<Hero[]>(`${this.baserUrl}/heroes`);
-    //http://localhost:3000/heroes
+    return this.http.get<Hero[]>(this.apiUrl);
   }
 
-  getHeroById(id: string): Observable<Hero | undefined> {
-    return this.http
-      .get<Hero>(`${this.baserUrl}/heroes/${id}`)
-      .pipe(catchError((error) => of(undefined)));
-  }
-
-  addHero(hero: Hero): Observable<Hero> {
-    return this.http.post<Hero>(`${this.baserUrl}/heroes`, hero);
-    //http://localhost:3000/heroes/wolverine
+  getHeroById(id: string): Observable<Hero> {
+    return this.http.get<Hero>(`${this.apiUrl}/${id}`);
   }
 
   updateHero(hero: Hero): Observable<Hero> {
-    return this.http.patch<Hero>(`${this.baserUrl}/heroes/${hero.id}`, hero);
-    //http://localhost:3000/heroes/wolverine =>    hero=> leopardo
+    return this.http.put<Hero>(`${this.apiUrl}/${hero.id}`, hero);
   }
 
-  deleteHeroe(id: string): Observable<boolean> {
-    return this.http.delete(`${this.baserUrl}/heroes/${id}`).pipe(
-      catchError((error) => of(false)),
-      map((resp) => true)
-    );
-    //http://localhost:3000/heroes
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.apiUrl, hero);
+  }
+
+  deleteHero(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

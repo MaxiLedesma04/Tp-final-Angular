@@ -1,7 +1,15 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withComponentInputBinding } from '@angular/router'; // Proveedor de rutas
+import { routes } from './app/app.routes'; // Asegúrate de tener tus rutas definidas en este archivo
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
-);
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(),
+    provideAnimations(),
+    provideRouter(routes, withComponentInputBinding()), // Proporciona las rutas
+  ],
+}).catch((err) => console.error(err));

@@ -1,19 +1,26 @@
-import { Component } from '@angular/core';
-import { MatCardModule } from '@angular/material/card'; // Importar el módulo de MatCard
-import { CommonModule } from '@angular/common'; // Importar CommonModule para usar ngFor
+import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { HeroresServices } from '../services/hero.services'; // Servicio actualizado
+import { Hero } from '../interfaces/interfaces.component';
 
 @Component({
   selector: 'app-listado',
-  standalone: true, // Componente standalone
-  imports: [MatCardModule, CommonModule], // Importar MatCardModule y CommonModule para ngFor
+  standalone: true,
   templateUrl: './listado.component.html',
   styleUrls: ['./listado.component.css'],
+  imports: [CommonModule, MatCardModule, HttpClientModule, RouterModule],
 })
-export class ListadoComponent {
-  // Definición de datos para el listado
-  heroes = [
-    { id: 1, nombre: 'Superman' },
-    { id: 2, nombre: 'Batman' },
-    { id: 3, nombre: 'Wonder Woman' },
-  ];
+export class ListadoComponent implements OnInit {
+  heroes: Hero[] = [];
+
+  constructor(private heroService: HeroresServices) {}
+
+  ngOnInit(): void {
+    this.heroService.getHeroes().subscribe((heroes) => {
+      this.heroes = heroes;
+    });
+  }
 }

@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-aniadir',
@@ -28,7 +28,7 @@ export class AniadirComponent implements OnInit {
     alter_ego: new FormControl<string>('', Validators.required),
     first_appearance: new FormControl<string>('', Validators.required),
     characters: new FormControl<string>('', Validators.required),
-    alt_img: new FormControl<string>('', Validators.required),
+    alt_img: new FormControl<string>(''),
   });
 
   publishers = [
@@ -47,38 +47,43 @@ export class AniadirComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.router.url.includes('edit')) return;
-
-    this.activatedRoute.params
-      .pipe(switchMap(({ id }) => this.heroService.getHeroById(id)))
-      .subscribe((hero) => {
-        if (!hero) {
-          // Manejar el caso en el que el héroe no existe
-          this.router.navigateByUrl('/');
-          return; // Detener la ejecución
-        }
-        this.heroForm.patchValue(hero);
-      });
+    // Verificar si se está editando un héroe
+    if (this.router.url.includes('edit')) {
+      this.activatedRoute.params
+        .pipe(switchMap(({ id }) => this.heroService.getHeroById(id)))
+        .subscribe((hero) => {
+          if (!hero) {
+            this.router.navigateByUrl('/');
+            return;
+          }
+          // Rellenar el formulario con los datos del héroe seleccionado
+          this.heroForm.patchValue(hero);
+        });
+    }
   }
 
   onSubmit(): void {
     if (this.heroForm.invalid) return;
 
     if (this.currentHero.id) {
+      // Actualizar el héroe existente
       this.heroService.updateHero(this.currentHero).subscribe((hero) => {
         this.showSnackBar(`${hero.superhero} actualizado`);
+        this.router.navigateByUrl('/'); // Redirigir después de la actualización
       });
       return;
     }
 
+    // Crear un nuevo héroe
     this.heroService.addHero(this.currentHero).subscribe((hero) => {
       this.showSnackBar(`${hero.superhero} creado`);
+      this.router.navigateByUrl('/'); // Redirigir después de crear
     });
   }
 
   onDeleteHero(): void {
     if (this.currentHero.id) {
-      this.heroService.deleteHeroe(this.currentHero.id).subscribe(() => {
+      this.heroService.deleteHero(this.currentHero.id).subscribe(() => {
         this.showSnackBar(`${this.currentHero.superhero} borrado`);
         this.router.navigateByUrl('/'); // Redirigir después de borrar
       });
@@ -86,7 +91,6 @@ export class AniadirComponent implements OnInit {
   }
 
   showSnackBar(message: string): void {
-    // Implementación de snackbar con alertas simples en lugar de Material
-    alert(message); // Usar alert como alternativa a snackbar
+    alert(message);
   }
 }
