@@ -6,10 +6,48 @@
           type="text"
           class="form-control form-control-lg"
           id="searchInput"
-          placeholder="Buscar de heroes..."
+          placeholder="Buscar héroes..."
           aria-label="Buscar"
+          (keyup)="onSearch($event)"
         />
       </div>
     </div>
+  </div>
+
+  <!-- Lista de tarjetas de héroes -->
+  <div class="row">
+    @if (filteredHeroes.length > 0) {
+    <div class="col-12">
+      <div class="row">
+        @for (hero of filteredHeroes; track hero.id) {
+        <div class="col-md-4">
+          <div class="card mb-3">
+            @if (hero.alt_img) {
+            <img
+              src="{{ hero.alt_img }}"
+              class="card-img-top"
+              alt="{{ hero.superhero }}"
+            />
+            }
+            <div class="card-body">
+              <h5 class="card-title">{{ hero.superhero }}</h5>
+              <p class="card-text">
+                <strong>Alter Ego:</strong> {{ hero.alter_ego }}<br />
+                <strong>Editorial:</strong> {{ hero.publisher }}<br />
+                <strong>Primera Aparición:</strong> {{ hero.first_appearance
+                }}<br />
+                <strong>Personajes:</strong> {{ hero.characters }}
+              </p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    } @else {
+    <div class="col-12">
+      <p>No se encontraron héroes</p>
+    </div>
+    }
   </div>
 </div>

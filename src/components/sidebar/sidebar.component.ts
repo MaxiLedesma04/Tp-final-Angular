@@ -10,17 +10,22 @@ import { RouterModule } from '@angular/router';
   selector: 'app-sidebar',
   standalone: true,
   imports: [
-    CommonModule, // Importar CommonModule para habilitar ngFor y otras directivas
+    CommonModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
     MatIconModule,
-    RouterModule, // Asegurarse de importar RouterModule para habilitar [routerLink]
+    RouterModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent {
+  router: any;
+  logout(): void {
+    localStorage.removeItem('isAuthenticated'); // Limpia el estado de autenticación
+    this.router.navigate(['/login']); // Redirige al login
+  }
   sidebarItems = [
     { label: 'Listado', icon: 'label', url: './listado' },
     { label: 'Añadir', icon: 'add', url: './añadir' },

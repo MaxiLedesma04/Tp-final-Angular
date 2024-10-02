@@ -1,0 +1,101 @@
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <div class="form-group">
+      <label for="usuario">Usuario</label>
+      <input
+        id="usuario"
+        type="text"
+        class="form-control"
+        formControlName="usuario"
+        placeholder="Ingresa tu usuario"
+      />
+      @if (loginForm.get('usuario')?.invalid &&
+      loginForm.get('usuario')?.touched) {
+      <small class="text-danger">El usuario es obligatorio.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Correo Electrónico</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="Ingresa tu correo electrónico"
+      />
+      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+      <small class="text-danger">El correo electrónico es obligatorio.</small>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="loginForm.invalid"
+    >
+      Ingresar
+    </button>
+  </form>
+
+  <!-- <div @if { {{ mensaje }} }></div> -->
+
+  <hr />
+
+  <h2>Registrarse</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+    <div class="form-group">
+      <label for="newUsuario">Usuario</label>
+      <input
+        id="newUsuario"
+        type="text"
+        class="form-control"
+        formControlName="newUsuario"
+        placeholder="Ingresa un nuevo usuario"
+      />
+      @if (registerForm.get('newUsuario')?.invalid &&
+      registerForm.get('newUsuario')?.touched) {
+      <small class="text-danger">El usuario es obligatorio.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="newEmail">Correo Electrónico</label>
+      <input
+        id="newEmail"
+        type="email"
+        class="form-control"
+        formControlName="newEmail"
+        placeholder="Ingresa tu correo electrónico"
+      />
+      @if (registerForm.get('newEmail')?.invalid &&
+      registerForm.get('newEmail')?.touched) {
+      <small class="text-danger">El correo electrónico es obligatorio.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="newPassword">Contraseña</label>
+      <input
+        id="newPassword"
+        type="password"
+        class="form-control"
+        formControlName="newPassword"
+        placeholder="Ingresa una contraseña"
+      />
+      @if (registerForm.get('newPassword')?.invalid &&
+      registerForm.get('newPassword')?.touched) {
+      <small class="text-danger">La contraseña es obligatoria.</small>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="registerForm.invalid"
+    >
+      Registrarse
+    </button>
+  </form>
+</div>
